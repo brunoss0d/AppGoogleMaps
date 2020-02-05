@@ -2,7 +2,9 @@ package com.dossmann.appgooglemaps;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -12,10 +14,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap googleMap;
+    private Context myContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        myContext = this;
     }
 
 
@@ -45,15 +52,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setMyLocationButtonEnabled(true);
 
+        ClusterManager<MyItem> myClusterManager = new ClusterManager<>(myContext, googleMap);
+        googleMap.setOnMarkerClickListener(myClusterManager);
+        ArrayList<MyItem> items = new ArrayList<>();
+        for (int i = 0; i < 10; i++){
+            //LatLng currentPosition = new LatLng(48 + (i*0.1), 2 +(i*0.1));
+            //LatLng currentPosition = new LatLng(48, 2+i);
+            items.add(new MyItem(new LatLng(48,2+i), "name of postion "+i ));
 
 
 
+        }
+        myClusterManager.addItems(items);
+
+/*
         // Add a marker in Sydney and move the camera
         LatLng paris = new LatLng(48, 02);
         this.googleMap.addMarker(new MarkerOptions().position(paris).title("Marker in Sydney"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(paris));
         googleMap.setMyLocationEnabled(true);
 
+
+        mycluster = new MyItem()
         LatLng berstett = new LatLng(48.4048,7.3931);
 
         this.googleMap.addMarker(new MarkerOptions().position(berstett).title("Home"));
@@ -64,7 +84,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             marker.position(currentPosition);
             marker.title("Marker " + i);
             this.googleMap.addMarker(marker);
+
         }
+        for (int i = 0; i < 15; i++) {
+            LatLng currentPosition = new LatLng(47 + (i * 0.1), 3 + (i * 0.1));
+            MarkerOptions marker = new MarkerOptions();
+            marker.position(currentPosition);
+            marker.title("Marker " + i);
+            this.googleMap.addMarker(marker);
+        }
+*/
+
+
+
 
     }
 }
