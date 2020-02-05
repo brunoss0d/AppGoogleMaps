@@ -19,16 +19,16 @@ public class MyItem implements ClusterItem {
 
     @Override
     public LatLng getPosition() {
-        return null;
+        return position;
     }
 
     @Override
     public String getTitle() {
-        return null;
+        return title;
     }
 
     @Override
     public String getSnippet() {
-        return null;
+        return "";
     }
 }
