@@ -54,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ClusterManager<MyItem> myClusterManager = new ClusterManager<>(myContext, googleMap);
         googleMap.setOnMarkerClickListener(myClusterManager);
+        googleMap.setOnCameraIdleListener(myClusterManager);
         ArrayList<MyItem> items = new ArrayList<>();
         for (int i = 0; i < 10; i++){
             //LatLng currentPosition = new LatLng(48 + (i*0.1), 2 +(i*0.1));
